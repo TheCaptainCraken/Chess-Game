@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -O1 -Wall -Wno-missing-braces
 LINKFLAGS = -lraylib -lopengl32 -lgdi32 -lwinmm
 LINKPATH = dependencies/lib
-OUTPUTDIR = build
+OUTPUTDIR = debug_build
 APPLICATIONNAME = app.exe
 CFILES = src/main.c
 
