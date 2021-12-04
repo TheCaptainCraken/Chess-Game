@@ -31,7 +31,8 @@ Board* InitBoard() {
         *(new_board + i) = (char*)malloc(sizeof(char) * BOARD_SIDE);
         if (*(new_board + i) == NULL) { return NULL; }
     }
-
+    /*TODO: FIX*/
+    return NULL;
 
 }
 

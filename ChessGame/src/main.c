@@ -4,11 +4,11 @@
 
 int main(void) {
     InitWindow(800, 450, "Chess");
-    Board* board = InitBoard();
-    if (board == NULL) {/*the board initalization failed */
-        CloseWindow();
-        return 1;
-    }
+    // Board* board = InitBoard();
+    // if (board == NULL) {/*the board initalization failed */
+    //     CloseWindow();
+    //     return 1;
+    // }
     while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
