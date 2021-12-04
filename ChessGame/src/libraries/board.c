@@ -1,3 +1,4 @@
+#include "../../dependencies/include/raylib.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include "board.h"
@@ -58,4 +59,65 @@ void PrintBoardOnTerminal(Board board) {
         }
         printf("\n");
     }
+}
+
+void PrintBoard(Board board, Texture2D* textures) {
+    int step = GetScreenHeight() / BOARD_SIDE;
+    int start = (GetScreenWidth() - (step * 8)) / 2;
+
+    for (int row = 0; row < BOARD_SIDE; row++) {
+        for (int col = 0; col < BOARD_SIDE; col++) {
+            DrawRectangle((col * step) + start, row * step, step, step, (row + col) % 2 == 0 ? ORANGE : YELLOW);
+            if (*(*(board + row) + col) != ' ') {
+                switch (*(*(board + row) + col)) {
+                case 'b':
+                    DrawTexture(textures[0], (col * step) + start, row * step, WHITE);
+                    break;
+                case 'k':
+                    DrawTexture(textures[1], (col * step) + start, row * step, WHITE);
+                    break;
+                case 'n':
+                    DrawTexture(textures[2], (col * step) + start, row * step, WHITE);
+                    break;
+                case 'p':
+                    DrawTexture(textures[3], (col * step) + start, row * step, WHITE);
+                    break;
+                case 'q':
+                    DrawTexture(textures[4], (col * step) + start, row * step, WHITE);
+                    break;
+                case 'r':
+                    DrawTexture(textures[5], (col * step) + start, row * step, WHITE);
+                    break;
+                case 'B':
+                    DrawTexture(textures[6], (col * step) + start, row * step, WHITE);
+                    break;
+                case 'K':
+                    DrawTexture(textures[7], (col * step) + start, row * step, WHITE);
+                    break;
+                case 'N':
+                    DrawTexture(textures[8], (col * step) + start, row * step, WHITE);
+                    break;
+                case 'P':
+                    DrawTexture(textures[9], (col * step) + start, row * step, WHITE);
+                    break;
+                case 'Q':
+                    DrawTexture(textures[10], (col * step) + start, row * step, WHITE);
+                    break;
+                case 'R':
+                    DrawTexture(textures[11], (col * step) + start, row * step, WHITE);
+                    break;
+                default:
+                    printf("Error Unknown Piece");
+                }
+            }
+        }
+    }
+
+}
+
+void DestroyBoard(Board board) {
+    for (int i = 0; i < BOARD_SIDE; i++) {
+        free(*(board + i));
+    }
+    free(board);
 }
