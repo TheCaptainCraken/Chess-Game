@@ -1,27 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-#define BOARD_SIDE 8
-#define EMPTY ' '
-#define WHITE_PAWN 'P'
-#define WHITE_KNIGHT 'N'
-#define WHITE_BISHOP 'B'
-#define WHITE_ROOK 'R'
-#define WHITE_QUEEN 'Q'
-#define WHITE_KING 'K'
-#define BLACK_PAWN 'p'
-#define BLACK_KNIGHT 'n'
-#define BLACK_BISHOP 'b'
-#define BLACK_ROOK 'r'
-#define BLACK_QUEEN 'q'
-#define BLACK_KING 'k'
-
-
-typedef char** Board;
-
-typedef int bool;
-#define true 1;
-#define false 0;
+#include "board.h"
 
 Board InitBoard() {
     char** new_board = (char**)malloc(sizeof(char*) * BOARD_SIDE);
@@ -31,9 +10,7 @@ Board InitBoard() {
         *(new_board + i) = (char*)malloc(sizeof(char) * BOARD_SIDE);
         if (*(new_board + i) == NULL) { return NULL; }
     }
-    /*TODO: FIX*/
-    return NULL;
-
+    return new_board;
 }
 
 
@@ -46,7 +23,39 @@ Board InitBoard() {
 *   if en passsent is possible
 *   them shit we don't care about for now.
 */
-bool LoadFenString(Board* board, const char* fen_string) {
-    //rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+bool LoadFenString(Board board, const char* fen_string) {
+    int index = 0;
+    int row = 0;
+    int col = 0;
+    while (row < BOARD_SIDE) {
+        char current = *(fen_string + index);
+        if ((current >= 'A' && current <= 'Z') || (current >= 'a' && current <= 'z')) {
+            *(*(board + row) + col) = current;
+            col++;
+        }
+        else if (current == '/') {
+            row++;
+            col = 0;
+        }
+        else if (current >= '0' && current <= '9') {
+            for (int i = 0; i < current - '0'; i++) {
+                *(*(board + row) + col) = EMPTY;
+                col++;
+            }
+        }
+        else {
+            return true;
+        }
+        index++;
+    }
     return false;
+}
+
+void PrintBoardOnTerminal(Board board) {
+    for (int row = 0; row < BOARD_SIDE; row++) {
+        for (int col = 0; col < BOARD_SIDE; col++) {
+            printf(" %c ", *(*(board + row) + col));
+        }
+        printf("\n");
+    }
 }

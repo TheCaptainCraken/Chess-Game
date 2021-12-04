@@ -12,5 +12,4 @@ all: $(CFILES)
 	@echo created executable file in $(OUTPUTDIR)/$(APPLICATIONNAME)
 
 clean:
-	@rm $(OUTPUTDIR)/$(APPLICATIONNAME)
-	@rmdir $(OUTPUTDIR)
+	@echo not working :()
