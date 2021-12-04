@@ -24,7 +24,7 @@ typedef int bool;
 #define false 0;
 
 Board* InitBoard() {
-    char** new_board = (char*)malloc(sizeof(char*) * BOARD_SIDE);
+    char** new_board = (char**)malloc(sizeof(char*) * BOARD_SIDE);
     if (new_board == NULL) { return NULL; }
 
     for (int i = 0; i < BOARD_SIDE; i++) {
@@ -48,4 +48,5 @@ Board* InitBoard() {
 */
 bool LoadFenString(Board* board, const char* fen_string) {
     //rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1
+    return false;
 }

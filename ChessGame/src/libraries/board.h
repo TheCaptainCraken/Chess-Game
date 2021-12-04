@@ -1,7 +1,6 @@
 #pragma once
 
 typedef char** Board;
-typedef int bool;
 
 Board* InitBoard();
 
