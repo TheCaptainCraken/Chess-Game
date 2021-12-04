@@ -10,3 +10,7 @@ all: $(CFILES)
 	@mkdir $(OUTPUTDIR)
 	$(CC) $(CFILES) -o $(OUTPUTDIR)/$(APPLICATIONNAME) $(CFLAGS) -L $(LINKPATH) $(LINKFLAGS)
 	@echo created executable file in $(OUTPUTDIR)/$(APPLICATIONNAME)
+
+clean:
+	@rm $(OUTPUTDIR)/$(APPLICATIONNAME)
+	@rmdir $(OUTPUTDIR)
