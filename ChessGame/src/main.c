@@ -1,12 +1,13 @@
 #include "../dependencies/include/raylib.h"
+#include <stdio.h>
+#include "libraries/board.h"
 
 int main(void) {
-    InitWindow(800, 450, "basic window");
-
-    while (!WindowShouldClose())     {
+    InitWindow(800, 450, "Chess");
+    Print();
+    while (!WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
         EndDrawing();
     }
 

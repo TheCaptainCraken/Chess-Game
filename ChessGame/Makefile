@@ -4,7 +4,7 @@ LINKFLAGS = -lraylib -lopengl32 -lgdi32 -lwinmm
 LINKPATH = dependencies/lib
 OUTPUTDIR = debug_build
 APPLICATIONNAME = app.exe
-CFILES = src/main.c
+CFILES = src/main.c src/libraries/board.c
 
 all: $(CFILES)
 	@mkdir $(OUTPUTDIR)
