@@ -67,44 +67,44 @@ void PrintBoard(Board board, Texture2D* textures) {
 
     for (int row = 0; row < BOARD_SIDE; row++) {
         for (int col = 0; col < BOARD_SIDE; col++) {
-            DrawRectangle((col * step) + start, row * step, step, step, (row + col) % 2 == 0 ? ORANGE : YELLOW);
+            DrawRectangle((col * step) + start, row * step, step, step, (row + col) % 2 == 0 ? GRAY : YELLOW);
             if (*(*(board + row) + col) != ' ') {
                 switch (*(*(board + row) + col)) {
                 case 'b':
-                    DrawTexture(textures[0], (col * step) + start, row * step, WHITE);
+                    DrawTexture(textures[0], (col * step) + start + 10, (row * step) + 10, WHITE);
                     break;
                 case 'k':
-                    DrawTexture(textures[1], (col * step) + start, row * step, WHITE);
+                    DrawTexture(textures[1], (col * step) + start + 10, (row * step) + 10, WHITE);
                     break;
                 case 'n':
-                    DrawTexture(textures[2], (col * step) + start, row * step, WHITE);
+                    DrawTexture(textures[2], (col * step) + start + 10, (row * step) + 10, WHITE);
                     break;
                 case 'p':
-                    DrawTexture(textures[3], (col * step) + start, row * step, WHITE);
+                    DrawTexture(textures[3], (col * step) + start + 10, (row * step) + 10, WHITE);
                     break;
                 case 'q':
-                    DrawTexture(textures[4], (col * step) + start, row * step, WHITE);
+                    DrawTexture(textures[4], (col * step) + start + 10, (row * step) + 10, WHITE);
                     break;
                 case 'r':
-                    DrawTexture(textures[5], (col * step) + start, row * step, WHITE);
+                    DrawTexture(textures[5], (col * step) + start + 10, (row * step) + 10, WHITE);
                     break;
                 case 'B':
-                    DrawTexture(textures[6], (col * step) + start, row * step, WHITE);
+                    DrawTexture(textures[6], (col * step) + start + 10, (row * step) + 10, WHITE);
                     break;
                 case 'K':
-                    DrawTexture(textures[7], (col * step) + start, row * step, WHITE);
+                    DrawTexture(textures[7], (col * step) + start + 10, (row * step) + 10, WHITE);
                     break;
                 case 'N':
-                    DrawTexture(textures[8], (col * step) + start, row * step, WHITE);
+                    DrawTexture(textures[8], (col * step) + start + 10, (row * step) + 10, WHITE);
                     break;
                 case 'P':
-                    DrawTexture(textures[9], (col * step) + start, row * step, WHITE);
+                    DrawTexture(textures[9], (col * step) + start + 10, (row * step) + 10, WHITE);
                     break;
                 case 'Q':
-                    DrawTexture(textures[10], (col * step) + start, row * step, WHITE);
+                    DrawTexture(textures[10], (col * step) + start + 10, (row * step) + 10, WHITE);
                     break;
                 case 'R':
-                    DrawTexture(textures[11], (col * step) + start, row * step, WHITE);
+                    DrawTexture(textures[11], (col * step) + start + 10, (row * step) + 10, WHITE);
                     break;
                 default:
                     printf("Error Unknown Piece");
