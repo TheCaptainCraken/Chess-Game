@@ -2,6 +2,6 @@
 
 typedef char** Board;
 
-Board* InitBoard();
+Board InitBoard();
 
 bool LoadFenString(Board*, const char*);

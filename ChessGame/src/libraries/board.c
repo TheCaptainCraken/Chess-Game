@@ -23,7 +23,7 @@ typedef int bool;
 #define true 1;
 #define false 0;
 
-Board* InitBoard() {
+Board InitBoard() {
     char** new_board = (char**)malloc(sizeof(char*) * BOARD_SIDE);
     if (new_board == NULL) { return NULL; }
 
