@@ -1,8 +1,7 @@
 #pragma once
 #include "../../dependencies/include/raylib.h"
 
-#define IMG_SIDE_LEN 20
-
+/* defines for the paths of the images */
 #define BLACK_BISHOP_IMAGE_PATH "assets/black_bishop.png"
 #define BLACK_KING_IMAGE_PATH "assets/black_king.png"
 #define BLACK_KNIGHT_IMAGE_PATH "assets/black_knight.png"
@@ -16,5 +15,7 @@
 #define WHITE_QUEEN_IMAGE_PATH "assets/white_queen.png"
 #define WHITE_ROOK_IMAGE_PATH "assets/white_rook.png"
 
+/* loads all the assets into the vram as an array of tectures */
 Texture2D* LoadAssets(int);
+/* deallocates all the textures */
 void DestroyAssets(Texture2D*);

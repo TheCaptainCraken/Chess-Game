@@ -2,18 +2,20 @@
 #include <stdio.h>
 
 Texture2D* LoadAssets(int desired_side_len) {
-    desired_side_len -= 20;
+    desired_side_len -= 20; /* if the pieces were as wide and as tall as a square it would look ugly */
+
     /* create the texture array  */
     Texture2D* loaded_textures = (Texture2D*)MemAlloc(sizeof(Texture2D) * 12);
     if (loaded_textures == NULL) { return NULL; }
 
+    /* just watch the printfs */
     printf("\n=== STARTING TO LOAD ASSETS ===\n\n");
 
     printf("\n=== BLACK BISHOP === \n");
-    Image black_bishop_image = LoadImage(BLACK_BISHOP_IMAGE_PATH);
-    ImageResizeNN(&black_bishop_image, desired_side_len, desired_side_len);
-    *(loaded_textures + 0) = LoadTextureFromImage(black_bishop_image);
-    UnloadImage(black_bishop_image);
+    Image black_bishop_image = LoadImage(BLACK_BISHOP_IMAGE_PATH); /* create an image from a file in memory */
+    ImageResizeNN(&black_bishop_image, desired_side_len, desired_side_len); /* resize said image to the desired width and height */
+    *(loaded_textures + 0) = LoadTextureFromImage(black_bishop_image); /* then create a texture in vram from said image and sore it in the texture array */
+    UnloadImage(black_bishop_image); /* dealocate the image */
 
     printf("\n=== BLACK KING ===\n");
     Image black_king_image = LoadImage(BLACK_KING_IMAGE_PATH);
@@ -86,5 +88,5 @@ Texture2D* LoadAssets(int desired_side_len) {
 }
 
 void DestroyAssets(Texture2D* textures) {
-    MemFree(textures);
+    MemFree(textures); /* BOOOORING */
 }

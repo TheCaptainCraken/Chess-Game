@@ -1,5 +1,9 @@
 #pragma once
 
+/*
+*   The board is inteded as an array of strings formed by FEN notation characters (https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation).
+*   The array of string pointers is inteded as the rows of the grid and the actual strings themselfs are the columns.
+*/
 typedef char** Board;
 
 /*
@@ -30,15 +34,23 @@ typedef int bool;
 #define BLACK_QUEEN 'q'
 #define BLACK_KING 'k'
 
-/* allocates in memory the space for a new board and returns it */
+/*
+*   Allocates in memory the space for a new board and returns it.
+*   In case anything goes wrong returns an NULL pointer.
+*/
 Board InitBoard();
 
-/* loads into the board the positions from a FEN string */
-bool LoadFenString(Board, const char*);
+/*
+*   Loads into the board the positions from a FEN string.
+*   Returns true if the loading is correct, false if it's not
+*/
+bool LoadFenString(Board board, const char* fen_string);
+
 /* prints the current state of a board on the terminal */
-void PrintBoardOnTerminal(Board);
+void PrintBoardOnTerminal(Board board);
+
 /* prints the current state of a board on the GUI*/
-void PrintBoard(Board, Texture2D*);
+void PrintBoard(Board board, Texture2D* textures);
 
 /* deallocates the board */
-void DestroyBoard(Board);
+void DestroyBoard(Board board);
