@@ -32,6 +32,5 @@ int main(int argc, char** argv) {
     DestroyBoard(board); /* deallocate the board */
     DestroyAssets(textures); /* deallocate the textures  */
     CloseWindow();
-
     return 0;
 }
