@@ -2,6 +2,7 @@
 #include "../dependencies/include/raylib.h"
 #include "libraries/board.h"
 #include "libraries/loader.h" 
+#include "libraries/events.h"
 
 int main(int argc, char** argv) {
     InitWindow(1000, 800, "Chess"); /* inizalize the window and the OpenGL contex */
@@ -21,8 +22,36 @@ int main(int argc, char** argv) {
     LoadFenString(board, "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"); /* this is the initial state */
     PrintBoardOnTerminal(board); /* for debug porpuses */
 
+    bool is_pos_selected = false;
+    int selected_row = -1;
+    int selected_col = -1;
+
     /* game loop */
     while (!WindowShouldClose()) {
+
+        if (PlayerClickedOnBoard()) {
+            int row, col;
+            GetBoardPosition(&row, &col);
+            if (!is_pos_selected && *(*(board + row) + col) != EMPTY) {
+                is_pos_selected = true;
+                selected_col = col;
+                selected_row = row;
+
+            }
+            else if (is_pos_selected && row == selected_row && col == selected_col) {
+                is_pos_selected = false;
+                selected_row = -1;
+                selected_col = -1;
+            }
+            else if (is_pos_selected) {
+                *(*(board + row) + col) = *(*(board + selected_row) + selected_col);
+                *(*(board + selected_row) + selected_col) = EMPTY;
+                is_pos_selected = false;
+                selected_row = -1;
+                selected_col = -1;
+            }
+        }
+
         BeginDrawing();
         ClearBackground(PURPLE);
         PrintBoard(board, textures); /* displays the board on a GUI */
