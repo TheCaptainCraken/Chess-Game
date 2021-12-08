@@ -12,7 +12,7 @@ Move* GenerateMoves(Move start, Board board, int* nm);
 bool CheckMove(Move* moves, int nm, Move move);
 
 int main(int argc, char** argv) {
-    InitWindow(1000, 800, "Chess"); /* inizalize the window and the OpenGL contex */
+    InitWindow(1200, 1000, "Chess"); /* inizalize the window and the OpenGL contex */
 
     Board board = InitBoard(); /* create a an empty game board in memory */
 
@@ -79,6 +79,14 @@ int main(int argc, char** argv) {
         BeginDrawing();
         ClearBackground(PURPLE);
         PrintBoard(board, textures); /* displays the board on a GUI */
+        if (is_pos_selected) {
+            int step = GetScreenHeight() / BOARD_SIDE; /* step is the lenght of the side of each square */
+            int start = (GetScreenWidth() - (step * 8)) / 2; /* start is an offset we calculate to center the board in the window */
+            DrawRectangle((selected_col * step) + start, selected_row * step, step, step, (Color) { 200, 200, 10, 100 });
+            for (int i = 0; i < number_of_moves; i++) {
+                DrawRectangle(((possible_moves + i)->x * step) + start, (possible_moves + i)->y * step, step, step, (Color) { 200, 10, 10, 100 });
+            }
+        }
         EndDrawing();
     }
 

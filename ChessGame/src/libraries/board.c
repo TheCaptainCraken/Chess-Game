@@ -67,7 +67,7 @@ void PrintBoard(Board board, Texture2D* textures) {
         for (int col = 0; col < BOARD_SIDE; col++) {
             int x_pos = (col * step) + start; /* x coorinates of the top right corner of each square */
             int y_pos = row * step; /* y coorinates of the top right corner of each square */
-            DrawRectangle(x_pos, y_pos, step, step, (row + col) % 2 == 0 ? GRAY : YELLOW); /* we alternate colors just like in a normal ches board */
+            DrawRectangle(x_pos, y_pos, step, step, (row + col) % 2 == 0 ? (Color) { 118, 150, 86, 255 } : (Color) { 238, 238, 210, 255 }); /* we alternate colors just like in a normal ches board */
             if (*(*(board + row) + col) != ' ') { /* if the quare is not empty we need to draw a texture */
                 x_pos += 10; /* offsets to center the texture */
                 y_pos += 10;
