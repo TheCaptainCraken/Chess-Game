@@ -10,6 +10,11 @@ typedef struct {
 
 Move* GenerateMoves(Move start, Board board, int* nm);
 bool CheckMove(Move* moves, int nm, Move move);
+bool IsWhite(int x, int y, Board board);
+bool IsBlack(int x, int y, Board board);
+bool IsEmpty(int x, int y, Board board);
+char GetPiece(int x, int y, Board board);
+bool IsInBoard(int x, int y);
 
 int main(int argc, char** argv) {
     InitWindow(1200, 1000, "Chess"); /* inizalize the window and the OpenGL contex */
@@ -43,14 +48,14 @@ int main(int argc, char** argv) {
         if (PlayerClickedOnBoard()) {
             int row, col;
             GetBoardPosition(&row, &col);
-            if (!is_pos_selected && *(*(board + row) + col) != EMPTY) {
-                if (current_player == 'w' && (*(*(board + row) + col) >= 'A' && *(*(board + row) + col) <= 'Z')) {
+            if (!is_pos_selected && !IsEmpty(col, row, board)) {
+                if (current_player == 'w' && IsWhite(col, row, board)) {
                     is_pos_selected = true;
                     selected_col = col;
                     selected_row = row;
                     possible_moves = GenerateMoves((Move) { selected_col, selected_row }, board, & number_of_moves);
                 }
-                else if (current_player == 'b' && (*(*(board + row) + col) >= 'a' && *(*(board + row) + col) <= 'z')) {
+                else if (current_player == 'b' && IsBlack(col, row, board)) {
                     is_pos_selected = true;
                     selected_col = col;
                     selected_row = row;
@@ -97,16 +102,200 @@ int main(int argc, char** argv) {
 }
 
 Move* GenerateMoves(Move start, Board board, int* nm) {
-    *nm = 1;
-    if (*(*(board + start.y) + start.x) >= 'a' && *(*(board + start.y) + start.x) <= 'z') {
-        Move* possible_moves = MemAlloc(sizeof(Move));
-        *possible_moves = (Move){ start.x, start.y + 1 };
+    *nm = 0;
+    Move* possible_moves = NULL;
+    if (IsBlack(start.x, start.y, board)) {
+        switch (GetPiece(start.x, start.y, board)) {
+        case BLACK_PAWN:
+        {
+            possible_moves = MemAlloc(sizeof(Move) * 4);
+            if (start.y == 1 && IsEmpty(start.x, start.y + 2, board) && IsEmpty(start.x, start.y + 1, board)) {
+                *(possible_moves + *nm) = (Move){ start.x, start.y + 2 };
+                (*nm)++;
+            }
+
+            if (IsEmpty(start.x, start.y + 1, board) && IsInBoard(start.x, start.y + 1)) {
+                *(possible_moves + *nm) = (Move){ start.x, start.y + 1 };
+                (*nm)++;
+            }
+            if (IsWhite(start.x + 1, start.y + 1, board) && IsInBoard(start.x + 1, start.y + 1)) {
+                *(possible_moves + *nm) = (Move){ start.x + 1, start.y + 1 };
+                (*nm)++;
+            }
+            if (IsWhite(start.x - 1, start.y + 1, board) && IsInBoard(start.x - 1, start.y + 1)) {
+                *(possible_moves + *nm) = (Move){ start.x - 1, start.y + 1 };
+                (*nm)++;
+            }
+        }
+        break;
+        case BLACK_ROOK:
+        {
+            possible_moves = MemAlloc(sizeof(Move) * 16);
+            /* go right */
+            for (int i = start.x + 1; IsInBoard(i, start.y) && !IsBlack(i, start.y, board); i++) {
+                *(possible_moves + *nm) = (Move){ i, start.y };
+                (*nm)++;
+                if (IsWhite(i, start.y, board)) { break; }
+            }
+            /* go left */
+            for (int i = start.x - 1; IsInBoard(i, start.y) && !IsBlack(i, start.y, board); i--) {
+                *(possible_moves + *nm) = (Move){ i, start.y };
+                (*nm)++;
+                if (IsWhite(i, start.y, board)) { break; }
+            }
+            /* go down */
+            for (int i = start.y + 1; IsInBoard(start.x, i) && !IsBlack(start.x, i, board); i++) {
+                *(possible_moves + *nm) = (Move){ start.x, i };
+                (*nm)++;
+                if (IsWhite(start.x, i, board)) { break; }
+            }
+            /* go up */
+            for (int i = start.y - 1; IsInBoard(start.x, i) && !IsBlack(start.x, i, board); i--) {
+                *(possible_moves + *nm) = (Move){ start.x, i };
+                (*nm)++;
+                if (IsWhite(start.x, i, board)) { break; }
+            }
+        }
+        break;
+        case BLACK_BISHOP:
+        {
+            possible_moves = MemAlloc(sizeof(Move) * 16);
+            /* down right */
+            for (int i = start.x + 1, j = start.y + 1; IsInBoard(i, j) && !IsBlack(i, j, board); i++, j++) {
+                *(possible_moves + *nm) = (Move){ i, j };
+                (*nm)++;
+                if (IsWhite(i, j, board)) { break; }
+            }
+            /* down left */
+            for (int i = start.x - 1, j = start.y + 1; IsInBoard(i, j) && !IsBlack(i, j, board); i--, j++) {
+                *(possible_moves + *nm) = (Move){ i, j };
+                (*nm)++;
+                if (IsWhite(i, j, board)) { break; }
+            }
+            /* up right */
+            for (int i = start.x + 1, j = start.y - 1; IsInBoard(i, j) && !IsBlack(i, j, board); i++, j--) {
+                *(possible_moves + *nm) = (Move){ i, j };
+                (*nm)++;
+                if (IsWhite(i, j, board)) { break; }
+            }
+            /* up left */
+            for (int i = start.x - 1, j = start.y - 1; IsInBoard(i, j) && !IsBlack(i, j, board); i--, j--) {
+                *(possible_moves + *nm) = (Move){ i, j };
+                (*nm)++;
+                if (IsWhite(i, j, board)) { break; }
+            }
+        }
+        break;
+        case BLACK_QUEEN:
+        {
+            possible_moves = MemAlloc(sizeof(Move) * 32);
+            /* down right */
+            for (int i = start.x + 1, j = start.y + 1; IsInBoard(i, j) && !IsBlack(i, j, board); i++, j++) {
+                *(possible_moves + *nm) = (Move){ i, j };
+                (*nm)++;
+                if (IsWhite(i, j, board)) { break; }
+            }
+            /* down left */
+            for (int i = start.x - 1, j = start.y + 1; IsInBoard(i, j) && !IsBlack(i, j, board); i--, j++) {
+                *(possible_moves + *nm) = (Move){ i, j };
+                (*nm)++;
+                if (IsWhite(i, j, board)) { break; }
+            }
+            /* up right */
+            for (int i = start.x + 1, j = start.y - 1; IsInBoard(i, j) && !IsBlack(i, j, board); i++, j--) {
+                *(possible_moves + *nm) = (Move){ i, j };
+                (*nm)++;
+                if (IsWhite(i, j, board)) { break; }
+            }
+            /* up left */
+            for (int i = start.x - 1, j = start.y - 1; IsInBoard(i, j) && !IsBlack(i, j, board); i--, j--) {
+                *(possible_moves + *nm) = (Move){ i, j };
+                (*nm)++;
+                if (IsWhite(i, j, board)) { break; }
+            }
+            /* go right */
+            for (int i = start.x + 1; IsInBoard(i, start.y) && !IsBlack(i, start.y, board); i++) {
+                *(possible_moves + *nm) = (Move){ i, start.y };
+                (*nm)++;
+                if (IsWhite(i, start.y, board)) { break; }
+            }
+            /* go left */
+            for (int i = start.x - 1; IsInBoard(i, start.y) && !IsBlack(i, start.y, board); i--) {
+                *(possible_moves + *nm) = (Move){ i, start.y };
+                (*nm)++;
+                if (IsWhite(i, start.y, board)) { break; }
+            }
+            /* go down */
+            for (int i = start.y + 1; IsInBoard(start.x, i) && !IsBlack(start.x, i, board); i++) {
+                *(possible_moves + *nm) = (Move){ start.x, i };
+                (*nm)++;
+                if (IsWhite(start.x, i, board)) { break; }
+            }
+            /* go up */
+            for (int i = start.y - 1; IsInBoard(start.x, i) && !IsBlack(start.x, i, board); i--) {
+                *(possible_moves + *nm) = (Move){ start.x, i };
+                (*nm)++;
+                if (IsWhite(start.x, i, board)) { break; }
+            }
+        }
+        break;
+        /* TODO: fix bug*/
+        case BLACK_KING:
+        {
+            possible_moves = MemAlloc(sizeof(Move) * 8);
+            /* all the position anti clockwise sense */
+            if (IsInBoard(start.x + 1, start.y) && !IsBlack(start.x + 1, start.y, board)) { *(possible_moves + *nm) = (Move){ start.x + 1, start.y }; (*nm)++; }
+            if (IsInBoard(start.x + 1, start.y + 1) && !IsBlack(start.x + 1, start.y + 1, board)) { *(possible_moves + *nm) = (Move){ start.x + 1, start.y + 1 }; (*nm)++; }
+            if (IsInBoard(start.x, start.y + 1) && !IsBlack(start.x, start.y + 1, board)) { *(possible_moves + *nm) = (Move){ start.x, start.y + 1 }; (*nm)++; }
+            if (IsInBoard(start.x - 1, start.y + 1) && !IsBlack(start.x - 1, start.y + 1, board)) { *(possible_moves + *nm) = (Move){ start.x - 1, start.y + 1 }; (*nm)++; }
+            if (IsInBoard(start.x - 1, start.y) && !IsBlack(start.x - 1, start.y, board)) { *(possible_moves + *nm) = (Move){ start.x - 1, start.y }; (*nm)++; }
+            if (IsInBoard(start.x - 1, start.y - 1) && !IsBlack(start.x - 1, start.y - 1, board)) { *(possible_moves + *nm) = (Move){ start.x - 1, start.y - 1 }; (*nm)++; }
+            if (IsInBoard(start.x, start.y - 1) && !IsBlack(start.x, start.y - 1, board)) { *(possible_moves + *nm) = (Move){ start.x, start.y - 1 }; }(*nm)++;
+            if (IsInBoard(start.x + 1, start.y - 1) && !IsBlack(start.x + 1, start.y - 1, board)) { *(possible_moves + *nm) = (Move){ start.x + 1, start.y - 1 }; (*nm)++; }
+
+        }
+        break;
+        default:
+        {
+            possible_moves = MemAlloc(sizeof(Move));
+            *possible_moves = (Move){ start.x, start.y + 1 };
+            *nm = 1;
+        }
+        }
     }
     else {
-        Move* possible_moves = MemAlloc(sizeof(Move));
-        *possible_moves = (Move){ start.x, start.y - 1 };
-    }
+        switch (GetPiece(start.x, start.y, board)) {
+        case WHITE_PAWN:
+        {
+            possible_moves = MemAlloc(sizeof(Move) * 4);
+            if (start.y == 6 && IsEmpty(start.x, start.y - 2, board) && IsEmpty(start.x, start.y - 1, board)) {
+                *(possible_moves + *nm) = (Move){ start.x, start.y - 2 };
+                (*nm)++;
+            }
 
+            if (IsEmpty(start.x, start.y - 1, board) && IsInBoard(start.x, start.y - 1)) {
+                *(possible_moves + *nm) = (Move){ start.x, start.y - 1 };
+                (*nm)++;
+            }
+            if (IsBlack(start.x + 1, start.y - 1, board) && IsInBoard(start.x + 1, start.y - 1)) {
+                *(possible_moves + *nm) = (Move){ start.x + 1, start.y - 1 };
+                (*nm)++;
+            }
+            if (IsBlack(start.x - 1, start.y - 1, board) && IsInBoard(start.x - 1, start.y - 1)) {
+                *(possible_moves + *nm) = (Move){ start.x - 1, start.y - 1 };
+                (*nm)++;
+            }
+        }
+        break;
+        default:
+        {
+            possible_moves = MemAlloc(sizeof(Move));
+            *possible_moves = (Move){ start.x, start.y - 1 };
+            *nm = 1;
+        }
+        }
+    }
+    return possible_moves;
 }
 
 bool CheckMove(Move* moves, int nm, Move move) {
@@ -114,4 +303,30 @@ bool CheckMove(Move* moves, int nm, Move move) {
         if ((moves + i)->x == move.x && (moves + i)->y == move.y) { return true; }
     }
     return false;
+}
+
+bool IsWhite(int x, int y, Board board) {
+    if (GetPiece(x, y, board) >= 'A' && GetPiece(x, y, board) <= 'Z' && GetPiece(x, y, board) != EMPTY) {
+        return true;
+    }
+    return false;
+}
+
+bool IsBlack(int x, int y, Board board) {
+    if (GetPiece(x, y, board) >= 'a' && GetPiece(x, y, board) <= 'z' && GetPiece(x, y, board) != EMPTY) {
+        return true;
+    }
+    return false;
+}
+
+bool IsEmpty(int x, int y, Board board) {
+    return (GetPiece(x, y, board) == EMPTY);
+}
+
+char GetPiece(int x, int y, Board board) {
+    return *(*(board + y) + x);
+}
+
+bool IsInBoard(int x, int y) {
+    return (x < 8 && x > -1 && y > -1 && y < 8);
 }
