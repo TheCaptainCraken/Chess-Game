@@ -256,6 +256,48 @@ Move* GenerateMoves(Move start, Board board, int* nm) {
 
         }
         break;
+        case BLACK_KNIGHT:
+        {
+            /* not sure if it's 8 or not */
+            possible_moves = MemAlloc(sizeof(Move) * 8);
+            /* Upper positions */
+            if (IsInBoard(start.x + 1, start.y - 2) && !IsBlack(start.x + 1, start.y - 2, board)) {
+                *(possible_moves + *nm) = (Move){ start.x + 1, start.y - 2 };
+                (*nm)++;
+            }
+            if (IsInBoard(start.x - 1, start.y - 2) && !IsBlack(start.x - 1, start.y - 2, board)) {
+                *(possible_moves + *nm) = (Move){ start.x - 1, start.y - 2 };
+                (*nm)++;
+            }
+            /* Lower positions */
+            if (IsInBoard(start.x + 1, start.y + 2) && !IsBlack(start.x + 1, start.y + 2, board)) {
+                *(possible_moves + *nm) = (Move){ start.x + 1, start.y + 2 };
+                (*nm)++;
+            }
+            if (IsInBoard(start.x - 1, start.y + 2) && !IsBlack(start.x - 1, start.y + 2, board)) {
+                *(possible_moves + *nm) = (Move){ start.x - 1, start.y + 2 };
+                (*nm)++;
+            }
+            /* Right positions */
+            if (IsInBoard(start.x + 2, start.y - 1) && !IsBlack(start.x + 2, start.y - 1, board)) {
+                *(possible_moves + *nm) = (Move){ start.x + 2, start.y - 1 };
+                (*nm)++;
+            }
+            if (IsInBoard(start.x + 2, start.y + 1) && !IsBlack(start.x + 2, start.y + 1, board)) {
+                *(possible_moves + *nm) = (Move){ start.x + 2, start.y + 1 };
+                (*nm)++;
+            }
+            /* Left positions */
+            if (IsInBoard(start.x - 2, start.y - 1) && !IsBlack(start.x - 2, start.y - 1, board)) {
+                *(possible_moves + *nm) = (Move){ start.x - 2, start.y - 1 };
+                (*nm)++;
+            }
+            if (IsInBoard(start.x - 2, start.y + 1) && !IsBlack(start.x - 2, start.y + 1, board)) {
+                *(possible_moves + *nm) = (Move){ start.x - 2, start.y + 1 };
+                (*nm)++;
+            }
+        }
+        break;
         default:
         {
             possible_moves = MemAlloc(sizeof(Move));
@@ -414,6 +456,48 @@ Move* GenerateMoves(Move start, Board board, int* nm) {
                 }
             }
 
+        }
+        break;
+        case WHITE_KNIGHT:
+        {
+            /* not sure if it's 8 or not */
+            possible_moves = MemAlloc(sizeof(Move) * 8);
+            /* Upper positions */
+            if (IsInBoard(start.x + 1, start.y - 2) && !IsWhite(start.x + 1, start.y - 2, board)) {
+                *(possible_moves + *nm) = (Move){ start.x + 1, start.y - 2 };
+                (*nm)++;
+            }
+            if (IsInBoard(start.x - 1, start.y - 2) && !IsWhite(start.x - 1, start.y - 2, board)) {
+                *(possible_moves + *nm) = (Move){ start.x - 1, start.y - 2 };
+                (*nm)++;
+            }
+            /* Lower positions */
+            if (IsInBoard(start.x + 1, start.y + 2) && !IsWhite(start.x + 1, start.y + 2, board)) {
+                *(possible_moves + *nm) = (Move){ start.x + 1, start.y + 2 };
+                (*nm)++;
+            }
+            if (IsInBoard(start.x - 1, start.y + 2) && !IsWhite(start.x - 1, start.y + 2, board)) {
+                *(possible_moves + *nm) = (Move){ start.x - 1, start.y + 2 };
+                (*nm)++;
+            }
+            /* Right positions */
+            if (IsInBoard(start.x + 2, start.y - 1) && !IsWhite(start.x + 2, start.y - 1, board)) {
+                *(possible_moves + *nm) = (Move){ start.x + 2, start.y - 1 };
+                (*nm)++;
+            }
+            if (IsInBoard(start.x + 2, start.y + 1) && !IsWhite(start.x + 2, start.y + 1, board)) {
+                *(possible_moves + *nm) = (Move){ start.x + 2, start.y + 1 };
+                (*nm)++;
+            }
+            /* Left positions */
+            if (IsInBoard(start.x - 2, start.y - 1) && !IsWhite(start.x - 2, start.y - 1, board)) {
+                *(possible_moves + *nm) = (Move){ start.x - 2, start.y - 1 };
+                (*nm)++;
+            }
+            if (IsInBoard(start.x - 2, start.y + 1) && !IsWhite(start.x - 2, start.y + 1, board)) {
+                *(possible_moves + *nm) = (Move){ start.x - 2, start.y + 1 };
+                (*nm)++;
+            }
         }
         break;
         default:
