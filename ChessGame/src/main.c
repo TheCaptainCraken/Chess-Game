@@ -17,9 +17,10 @@ char GetPiece(int x, int y, Board board);
 bool IsInBoard(int x, int y);
 
 int main(int argc, char** argv) {
+    SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(1200, 1000, "Chess"); /* inizalize the window and the OpenGL contex */
-
-    Image icon = LoadImage(BLACK_KNIGHT_IMAGE_PATH);
+    Image icon = LoadImage(WHITE_PAWN_IMAGE_PATH);
+    ImageColorTint(&icon, (Color) { 118, 150, 86, 255 });
     SetWindowIcon(icon);
 
     Board board = InitBoard(); /* create a an empty game board in memory */
