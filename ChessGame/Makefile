@@ -10,6 +10,7 @@ all: $(CFILES)
 	@mkdir $(OUTPUTDIR)
 	$(CC) $(CFILES) -o $(OUTPUTDIR)/$(APPLICATIONNAME) $(CFLAGS) -L $(LINKPATH) $(LINKFLAGS)
 	@echo created executable file in $(OUTPUTDIR)/$(APPLICATIONNAME)
+	.\debug_build\app.exe
 
 clean:
 	del $(OUTPUTDIR)\$(APPLICATIONNAME) 

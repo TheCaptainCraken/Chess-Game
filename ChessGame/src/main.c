@@ -19,6 +19,9 @@ bool IsInBoard(int x, int y);
 int main(int argc, char** argv) {
     InitWindow(1200, 1000, "Chess"); /* inizalize the window and the OpenGL contex */
 
+    Image icon = LoadImage(BLACK_KNIGHT_IMAGE_PATH);
+    SetWindowIcon(icon);
+
     Board board = InitBoard(); /* create a an empty game board in memory */
 
     int step = GetScreenHeight() / BOARD_SIDE; /* create and resize the textures and load them in vram */
